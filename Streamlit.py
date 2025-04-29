@@ -88,7 +88,7 @@ def crear_grafico(df, columna_tamaño, muestras_seleccionadas, colores, xlim=Non
                     bbox=dict(facecolor='white', alpha=0, edgecolor='none'))
     
     # Personalización del gráfico
-    ax.set_title(titulo if titulo else 'Curva Granulométrica', fontsize=16, pad=20)
+    ax.set_title(titulo if titulo else 'Curva Granulométrica', fontsize=16, pad=30)
     ax.set_xlabel('log10(Tamaño) (mm)', fontsize=12)
     ax.set_ylabel('% Pasante', fontsize=12)
     ax.legend(title='Muestras', bbox_to_anchor=(1.05, 1), loc='upper left')
