@@ -83,7 +83,7 @@ def crear_grafico(df, columna_tamaño, muestras_seleccionadas, colores, xlim=Non
     # Dibujar líneas de referencia (solo si están dentro del rango visible)
     for nombre, xpos in ref_values.items():
         if xlim is None or (xlim[0] <= xpos <= xlim[1]):
-            ax.axvline(x=xpos, color='gray', linestyle='--', alpha=0.7)
+            ax.axvline(x=xpos, color='#121212', linestyle='--', alpha=0.7)
             ax.text(xpos, y_max+0.2, nombre, ha='center', va='bottom', 
                     bbox=dict(facecolor='white', alpha=0, edgecolor='none'))
     
