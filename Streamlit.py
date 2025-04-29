@@ -157,6 +157,8 @@ with st.sidebar:
 # Contenido principal
 if archivo_subido is not None:
     # Preparamos el dataframe transformado para obtener el rango completo
+    columna_tamaño = df.columns[0]
+    columnas_muestras = df.columns[1:]
     df_transformado = df.melt(id_vars=[columna_tamaño], var_name='Muestra', value_name='% Pasante')
     df_transformado = df_transformado.dropna()
     df_transformado['log_Tamaño'] = np.log10(df_transformado[columna_tamaño])
