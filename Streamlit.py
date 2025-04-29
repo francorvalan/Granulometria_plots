@@ -225,7 +225,7 @@ if archivo_subido is not None:
         st.download_button(
             label="Descargar gráfico principal",
             data=buf.getvalue(),
-            file_name="grafico_granulometrico_principal.png",
+            file_name=f'{titulo_grafico}_principal.png',
             mime="image/png"
         )
         
@@ -242,7 +242,7 @@ if archivo_subido is not None:
             st.download_button(
                 label="Descargar gráfico con zoom",
                 data=buf_zoom.getvalue(),
-                file_name="grafico_granulometrico_zoom.png",
+                file_name=f'{titulo_grafico}_detalle.png',
                 mime="image/png"
             )
         
