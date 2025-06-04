@@ -380,8 +380,8 @@ with tabs[0]:
                 LL_muestra =  df_plasticidad[(df_plasticidad['Muestra'] == muestra) & (df_plasticidad['Nombre'] == 'LL')]['Limite'].values[0]
                 #print(f'Muestra: {muestra}, IP: {IP_muestra}, LL: {LL_muestra}')
                 Sample_processed = fn.texture_preprocess(df=df_transformado,muestra=muestra,LL=LL_muestra, PI=IP_muestra)
-                if Sample_processed.Gravas is not None and Sample_processed.Finos is not None:
-                    if Sample_processed.Gravas < Sample_processed.Finos:
+                if Sample_processed.Finos is not None:
+                    if  Sample_processed.Finos > 50:
                         fn.USCS_finos(Sample_processed)
                     else:
                         fn.USCS_granular(Sample_processed)
