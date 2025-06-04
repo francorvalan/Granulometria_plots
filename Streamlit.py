@@ -469,7 +469,7 @@ with tabs[1]:
     - Asegúrese de que los nombres de las columnas coincidan con el formato del modelo.
     - Ante falta de datos granulométricos exactos (Arcillas, Limos y Arenas), se realizarán **interpolaciones lineales** cuando sea posible.
     - La aplicación **no valida los datos**, por lo que es responsabilidad del usuario asegurarse del formato y contenido correcto.
-    - Si faltan los datos de **LL y/o IP**, se asume **plasticidad baja** (bajo la línea "A") para suelos finos, y clasificación `ML` u `OL` para suelos gruesos.
+    - Si faltan los datos de **LL y/o IP**, se asume **plasticidad baja** (bajo la línea "A") para suelos finos, y clasificación **ML u OL** para suelos gruesos.
     """)
     
     # Ejemplo de DataFrame modelo
