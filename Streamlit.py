@@ -463,12 +463,13 @@ with tabs[1]:
     6. Visualice y Descargue los resultados de clasificación USCS.
     
     
-    > ⚠️ Notas
-        - Ante la falta de datos, dejar la plantilla sin valores en las celdas correspondientes.
-        - Asegúrese de que los nombres de las columnas coincidan con el formato del modelo.
-        - Ante falta de granulometricos excactos de contenidos de Arcillas, Limos y Arenas se realizarán interpolaciones (lineales) para completar los datos, siempre y cuando esto sea posible.
-        - La aplicación no realiza validaciones de datos, por lo que es importante que los datos ingresados sean correctos y estén en el formato adecuado.
-        - Ante la falta de datos de LL y/o IP, se asume plasticidad baja (por debajo de la linea "A") para suelos finos y una plasticidad 'ML o OL' para suelos gruesos. 
+    > ⚠️ **Notas importantes**:
+
+    - Ante la falta de datos, dejar la plantilla sin valores en las celdas correspondientes.
+    - Asegúrese de que los nombres de las columnas coincidan con el formato del modelo.
+    - Ante falta de datos granulométricos exactos (Arcillas, Limos y Arenas), se realizarán **interpolaciones lineales** cuando sea posible.
+    - La aplicación **no valida los datos**, por lo que es responsabilidad del usuario asegurarse del formato y contenido correcto.
+    - Si faltan los datos de **LL y/o IP**, se asume **plasticidad baja** (bajo la línea "A") para suelos finos, y clasificación `ML` u `OL` para suelos gruesos.
     """)
     
     # Ejemplo de DataFrame modelo
