@@ -16,10 +16,34 @@ st.set_page_config(page_title="Análisis Granulométrico", layout="wide")
 # Inyectar fuente Roboto
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-    html, body, [class*="css"] {
-        font-family: 'Roboto', sans-serif;
+    /* Aplicar Roboto solo a títulos y texto principal */
+    h1, h2, h3, h4, h5, h6,
+    .stMarkdown, .stText, .stTitle, .stHeader {
+        font-family: 'Roboto', sans-serif !important;
+    }
+            
+    section[data-testid="stSidebar"] {
+    background-color: #002f42; /* gris claro, podés cambiarlo */
+    }
+
+    /* Fondo del área principal */
+    div[data-testid="stAppViewContainer"] > main {
+        background-color: #002f42; /* blanco, podés personalizar */
+    }
+
+    /* Opcional: cambiar color de fondo general del body */
+    body {
+        background-color: #002f42;
+    }
+
+            
+    div[data-testid="stFileUploader"] {
+    background-color: #002f42; /* celeste claro */
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #002f42;
     }
     </style>
     """, unsafe_allow_html=True)
@@ -216,7 +240,12 @@ def crear_grafico(df, columna_tamaño, muestras_seleccionadas, colores, xlim=Non
     return fig
 
 
-st.image("./Logo/ausenco-logo.png", width=450) 
+#st.image("./Logo/ausenco-logo.png", width=450) 
+st.logo(
+    "./Logo/ausenco-logo.png",
+    link="https://www.ausenco.com/",
+    #icon_image="./Logo/ausenco-logo.png",
+)
 tabs = st.tabs(["Aplicación", "Manual de Usuario"])
 
 with tabs[0]:
