@@ -239,7 +239,7 @@ def crear_grafico(df, columna_tamaño, muestras_seleccionadas, colores, xlim=Non
     
     return fig
 
-
+ 
 #st.image("./Logo/ausenco-logo.png", width=450) 
 st.logo(
     "./Logo/ausenco-logo.png",
