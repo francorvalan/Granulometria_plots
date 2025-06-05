@@ -13,6 +13,17 @@ from openpyxl import load_workbook
 from openpyxl.styles import Font, Border, Side
 
 st.set_page_config(page_title="Análisis Granulométrico", layout="wide")
+# Inyectar fuente Roboto
+st.markdown("""
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+    html, body, [class*="css"] {
+        font-family: 'Roboto', sans-serif;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
 
 df_transformado = None
 # Función para crear el gráfico con zoom mejorado
