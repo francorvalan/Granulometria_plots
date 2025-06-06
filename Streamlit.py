@@ -4,7 +4,8 @@ import numpy as np
 
 #from scipy.interpolate import PchipInterpolator
 from io import BytesIO
-
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
 import matplotlib.pyplot as plt
 import functions as fn
 from functools import reduce
@@ -210,7 +211,14 @@ with tabs[0]:
 
                 # Opción para mostrar puntos
                 mostrar_puntos = st.checkbox("Mostrar puntos de datos", value=True)
-                
+                paletas_matplotlib = sorted(plt.colormaps())
+                Ausenco_pallet = ['#101820','#004764',"#c6d1da",'#0095c8',"#b6c41d",
+                  "#ffdb49",'#db7121','#a1292f','#662766',"#7E5B68",
+                  "#267730","#4EBB5C","#4F5B66"]
+                paletas_opciones = ['Ausenco'] + paletas_matplotlib
+
+                paleta_seleccionada = st.selectbox("Selecciona una paleta de colores:", options=paletas_opciones, index=0)
+
                 # Widget para seleccionar rango de zoom (en escala logarítmica)
                 st.header("Configuración de Zoom")
                 zoom_habilitado = st.checkbox("Activar vista con zoom")
@@ -261,8 +269,12 @@ with tabs[0]:
             st.subheader("Personalización de Colores")
             colores = {}
             # Paleta de colores por defecto
-            palette = plt.colormaps.get_cmap('tab10').resampled(len(muestras_seleccionadas))
-            
+
+            #palette = plt.colormaps.get_cmap('tab10').resampled(len(muestras_seleccionadas))
+            # Obtener colores según selección
+            colores_usar = fn.obtener_colores(paleta_seleccionada, len(muestras_seleccionadas))
+
+            palette = ListedColormap(colores_usar)
             option = st.selectbox(
                 "Seleccionar la muestra para personalizar el color",
                 options=muestras_seleccionadas)
@@ -413,7 +425,6 @@ with tabs[0]:
             )
     else:
         st.warning("Por favor, cargue un archivo Excel para comenzar.")
-
 
 with tabs[1]:
     st.header("Manual de Usuario 📘")

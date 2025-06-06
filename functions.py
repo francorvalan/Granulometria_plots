@@ -5,7 +5,22 @@ from matplotlib.ticker import FuncFormatter
 from matplotlib.lines import Line2D
 import matplotlib.pyplot as plt
 from matplotlib.ticker import LogLocator, NullFormatter, ScalarFormatter
+from itertools import cycle, islice
 # Función para crear el gráfico con zoom mejorado
+Ausenco_pallet = ['#101820','#004764',"#c6d1da",'#0095c8',"#b6c41d",
+                  "#ffdb49",'#db7121','#a1292f','#662766',"#7E5B68",
+                  "#267730","#4EBB5C","#4F5B66"]
+def obtener_colores(paleta, n_colores):
+    if paleta == "Ausenco":
+        if n_colores <= len(Ausenco_pallet):
+            return Ausenco_pallet[:n_colores]
+        else:
+            return list(islice(cycle(Ausenco_pallet), n_colores))
+    else:
+        cmap = plt.get_cmap(paleta)
+        return [cmap(i / (n_colores - 1)) for i in range(n_colores)]
+
+
 def crear_grafico(df, columna_tamaño, muestras_seleccionadas, colores, xlim=None, mostrar_puntos=False,
                   zoom=False,titulo=None,Agrupar_muestras=False,grupo2=None,nombre_grupos=None):
 
