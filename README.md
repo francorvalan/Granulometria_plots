@@ -20,7 +20,7 @@ Esta aplicación permite procesar datos granulométricos a partir de tablas en f
 
 ## 🖼️ Captura de pantalla
 
-![Screenshot](screenshots/streamlit_app.png)  <!-- Podés reemplazar con tu propia imagen -->
+![Screenshot](./Logo/screenshot_app.png)  <!-- Podés reemplazar con tu propia imagen -->
 
 ---
 
