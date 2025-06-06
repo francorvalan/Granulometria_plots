@@ -65,22 +65,39 @@ st.markdown("""
     }
 
     /* Footer */
-    .footer {
+        .footer {
         position: fixed;
         left: 0;
         bottom: 0;
         width: 100%;
         background-color: #101820;
         color: white;
-        text-align: center;
-        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
         font-size: 14px;
         z-index: 100;
     }
+
+    .footer img {
+        height: 30px;
+    }
+
+    .footer a {
+        color: #ffffff;
+        text-decoration: none;
+        font-weight: bold;
+    }
     </style>
 
+
     <div class="footer">
-    📧 Contacto: <a href="mailto:Francisco.Corvalan@ausenco.com" style="color:#00bfff;">Francisco.Corvalan@ausenco.com</a> 
+        <a href="mailto:Francisco.Corvalan@ausenco.com"> 📧 Contacto: Francisco.Corvalan@ausenco.com</a>
+        <a href="https://www.ausenco.com/" target="_blank">
+            <img src="https://miningalati.com/wp-content/uploads/2023/06/ausenco-logo.png" alt="Ausenco logo">
+        </a>
+
     </div>
     """, unsafe_allow_html=True)
 
