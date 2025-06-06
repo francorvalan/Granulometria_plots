@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import LogLocator, NullFormatter, ScalarFormatter
-from scipy.interpolate import PchipInterpolator
+#from scipy.interpolate import PchipInterpolator
 from io import BytesIO
 from matplotlib.ticker import FuncFormatter
 from matplotlib.lines import Line2D
@@ -11,9 +11,23 @@ import functions as fn
 from functools import reduce
 from openpyxl import load_workbook
 from openpyxl.styles import Font, Border, Side
+import sys
+
+try:
+    if '_pydevd_frame_eval.pydevd_frame_eval_cython_wrapper' not in sys.modules:
+        import _pydevd_frame_eval.pydevd_frame_eval_cython_wrapper
+except ImportError:
+    pass
+
+from streamlit_plugins.components.theme_changer import get_active_theme_key, st_theme_changer
+from streamlit_plugins.components.theme_changer.entity import ThemeInfo, ThemeInput, ThemeBaseLight, ThemeBaseDark
+from streamlit_plugins.components.theme_changer import get_active_theme_key
 
 st.set_page_config(page_title="Análisis Granulométrico", layout="wide")
+
+#active_theme = get_active_theme_key()
 # Inyectar fuente Roboto
+
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
@@ -21,7 +35,7 @@ st.markdown("""
     /* Aplicar Roboto solo a títulos y texto principal */
     h1, h2, h3, h4, h5, h6,
     .stMarkdown, .stText, .stTitle, .stHeader {
-        font-family: 'Roboto', sans-serif !important;
+        font-family: 'Roboto',sans-serif !important;
     }
             
     section[data-testid="stSidebar"] {
@@ -45,9 +59,75 @@ st.markdown("""
     border-radius: 0.5rem;
     border: 1px solid #002f42;
     }
+    
+    .footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #101820;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    z-index: 100;
+    }
+    </style>
+            
+    <div class="footer">
+    📧 Contacto: <a href="Francisco.Corvalan@ausenco.com">Francisco.Corvalan@ausenco.com</a> 
+    </div>
     </style>
     """, unsafe_allow_html=True)
+######################################################################################################
 
+init_theme_data = dict(
+    soft_light=ThemeInput(
+        name="Soft Sunrise",
+        icon=":material/sunny_snowing:",
+        order=0,
+        themeInfo=ThemeInfo(
+            base=ThemeBaseLight.base,
+            primaryColor="#004764",
+            backgroundColor="#d1dde6",
+            secondaryBackgroundColor="#002f42",
+            textColor="#101820",
+            widgetBackgroundColor="#F3F5F7",
+            widgetBorderColor="#101820",
+            skeletonBackgroundColor="#f0f8ff",
+            #bodyFont=ThemeBaseLight.bodyFont,
+            #codeFont=ThemeBaseLight.codeFont,
+            #fontFaces=ThemeBaseLight.fontFaces,
+        )
+    ),
+    soft_dark=ThemeInput(
+        name="Dark Midnight",
+        icon=":material/nights_stay:",
+        order=1,
+        themeInfo=ThemeInfo(
+            base=ThemeBaseDark.base,
+            primaryColor="#0095c8", # Color pestaña seleccionada
+            backgroundColor="#000000",
+            secondaryBackgroundColor="#002f42",
+            textColor="#f0f8ff",
+            widgetBackgroundColor="#002f42",
+            widgetBorderColor="#002f42",
+            skeletonBackgroundColor="#f0f8ff",
+            #bodyFont=ThemeBaseDark.bodyFont,
+            #codeFont=ThemeBaseDark.codeFont,
+            #fontFaces=ThemeBaseDark.fontFaces,
+        )
+    )
+)
+if st.session_state.get("theme_data") is None:
+    st.session_state["theme_data"] = init_theme_data
+
+theme_data = st.session_state["theme_data"]
+
+st_theme_changer(themes_data=theme_data, render_mode="init", default_init_theme_name="soft_dark")
+#st_theme_changer(themes_data=theme_data, rerun_whole_st=True)
+
+######################################################################################################
 
 df_transformado = None
 # Función para crear el gráfico con zoom mejorado
@@ -78,15 +158,15 @@ def crear_grafico(df, columna_tamaño, muestras_seleccionadas, colores, xlim=Non
             y = y[sort_idx]
             
             # Crear función de interpolación
-            f = PchipInterpolator(x, y)
+            #f = PchipInterpolator(x, y)
             
             # Definir rango para la interpolación
-            x_min = x.min() if xlim is None else max(x.min(), xlim[0])
-            x_max = x.max() if xlim is None else min(x.max(), xlim[1])
+            #x_min = x.min() if xlim is None else max(x.min(), xlim[0])
+            #x_max = x.max() if xlim is None else min(x.max(), xlim[1])
             
             # Crear puntos para curva suavizada (200 puntos en el rango visible)
-            x_nuevo = np.linspace(x_min, x_max, 20000)
-            y_nuevo = f(x_nuevo)
+            #x_nuevo = np.linspace(x_min, x_max, 20000)
+            #y_nuevo = f(x_nuevo)
                         # Crear puntos para curva suavizada (200 puntos en el rango visible)
             x_nuevo = x
             y_nuevo = y
@@ -250,7 +330,6 @@ tabs = st.tabs(["Aplicación", "Manual de Usuario"])
 
 with tabs[0]:
     # Configuración de la página
-    #
     
     # Título de la aplicación
     st.title("📊 Análisis de Curvas Granulométricas")
@@ -580,5 +659,46 @@ with tabs[1]:
         mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     ) 
 
-st.markdown("---")
-st.markdown("📩 Contacto: [Francisco.Corvalan@ausenco.com](mailto:Francisco.Corvalan@ausenco.com)")
+# st.markdown("---")
+# st.markdown("📩 Contacto: [Francisco.Corvalan@ausenco.com](mailto:Francisco.Corvalan@ausenco.com)")
+
+# with st.sidebar:
+#     st_theme_changer(
+#         themes_data=theme_data, render_mode="button",label="Cambiar Tema",
+#         rerun_whole_st=True, key="first_pills"
+#     )
+
+# with st.sidebar:
+#     if st.button(":material/brightness_4: Cambiar Tema"):
+#         st_theme_changer(
+#             themes_data=theme_data,
+#             render_mode="next",  # cambia al siguiente tema
+#             rerun_whole_st=True,
+#             key="cambiar_tema"
+#         )
+
+# with st.sidebar:
+#     st.markdown("#### :material/brightness_4: Cambiar Tema")
+#     st_theme_changer(
+#         themes_data=theme_data,
+#         render_mode="pills",
+#         rerun_whole_st=True,
+#         key="pills_tema"
+#     )
+
+# Definir ícono según el tema actual}
+active_theme = get_active_theme_key()
+if active_theme in ["soft_dark", "dark", "Dark Midnight"]:
+    icono_tema = ":material/light_mode:"  # Sol para cambiar a modo claro
+else:
+    icono_tema = ":material/dark_mode:"  # Luna para cambiar a modo oscuro
+
+# Mostrar el botón con ícono dinámico
+with st.sidebar:
+    if st.button(f"{icono_tema}", key="toggle_theme"):
+        st_theme_changer(
+            themes_data=theme_data,
+            render_mode="next",
+            rerun_whole_st=True,
+            key="theme_next"
+        )
