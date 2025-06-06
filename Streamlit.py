@@ -1,12 +1,11 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.ticker import LogLocator, NullFormatter, ScalarFormatter
+
 #from scipy.interpolate import PchipInterpolator
 from io import BytesIO
-from matplotlib.ticker import FuncFormatter
-from matplotlib.lines import Line2D
+
+import matplotlib.pyplot as plt
 import functions as fn
 from functools import reduce
 from openpyxl import load_workbook
@@ -32,53 +31,59 @@ st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-    /* Aplicar Roboto solo a títulos y texto principal */
+    /* Aplicar Roboto */
     h1, h2, h3, h4, h5, h6,
     .stMarkdown, .stText, .stTitle, .stHeader {
         font-family: 'Roboto',sans-serif !important;
     }
-            
-    section[data-testid="stSidebar"] {
-    background-color: #002f42; /* gris claro, podés cambiarlo */
-    }
 
-    /* Fondo del área principal */
+    # /* Sidebar y fondo */
+    # section[data-testid="stSidebar"] {
+    #     background-color: #002f42;
+    # }
+
     div[data-testid="stAppViewContainer"] > main {
-        background-color: #002f42; /* blanco, podés personalizar */
+        background-color: #002f42;
     }
 
-    /* Opcional: cambiar color de fondo general del body */
     body {
         background-color: #002f42;
     }
 
-            
+    /* Uploader */
     div[data-testid="stFileUploader"] {
-    background-color: #002f42; /* celeste claro */
-    padding: 1rem;
-    border-radius: 0.5rem;
-    border: 1px solid #002f42;
+        background-color: #002f42;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        border: 1px solid #002f42;
     }
-    
+
+    /*  Cambiar color del texto del uploader */
+    section[data-testid="stSidebar"] label {
+        color: white !important;  /* Cambialo por el color que quieras */
+        font-family: 'Roboto', sans-serif;
+    }
+
+    /* Footer */
     .footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    background-color: #101820;
-    color: white;
-    text-align: center;
-    padding: 10px;
-    font-size: 14px;
-    z-index: 100;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: #101820;
+        color: white;
+        text-align: center;
+        padding: 10px;
+        font-size: 14px;
+        z-index: 100;
     }
     </style>
-            
+
     <div class="footer">
-    📧 Contacto: <a href="Francisco.Corvalan@ausenco.com">Francisco.Corvalan@ausenco.com</a> 
+    📧 Contacto: <a href="mailto:Francisco.Corvalan@ausenco.com" style="color:#00bfff;">Francisco.Corvalan@ausenco.com</a> 
     </div>
-    </style>
     """, unsafe_allow_html=True)
+
 ######################################################################################################
 
 init_theme_data = dict(
@@ -88,9 +93,9 @@ init_theme_data = dict(
         order=0,
         themeInfo=ThemeInfo(
             base=ThemeBaseLight.base,
-            primaryColor="#004764",
+            primaryColor="#002f42",
             backgroundColor="#d1dde6",
-            secondaryBackgroundColor="#002f42",
+            secondaryBackgroundColor="#01506e",
             textColor="#101820",
             widgetBackgroundColor="#F3F5F7",
             widgetBorderColor="#101820",
@@ -127,200 +132,10 @@ theme_data = st.session_state["theme_data"]
 st_theme_changer(themes_data=theme_data, render_mode="init", default_init_theme_name="soft_dark")
 #st_theme_changer(themes_data=theme_data, rerun_whole_st=True)
 
-######################################################################################################
 
 df_transformado = None
-# Función para crear el gráfico con zoom mejorado
-def crear_grafico(df, columna_tamaño, muestras_seleccionadas, colores, xlim=None, mostrar_puntos=False,
-                  zoom=False,titulo=None,Agrupar_muestras=False,grupo2=None,nombre_grupos=None):
-
-    df_transformado = df.dropna()
-    df_transformado = df_transformado[df_transformado['Muestra'].isin(muestras_seleccionadas)]
-    # Crear la figura
-    fig, ax = plt.subplots(figsize=(10, 6))
-    #fig, ax = plt.subplots(figsize=(18, 5))
-    REFERENCIAS = {
-        '0,002 mm':(2e-3),  # 0.002 mm
-        '#200\n(0,075mm)':0.075,    # 0.08 mm
-        '#4\n(4,75 mm)': 4.75     # 5 mm
-    }
-
-    # Graficar cada muestra seleccionada
-    for muestra in muestras_seleccionadas:
-        subset = df_transformado[df_transformado['Muestra'] == muestra]
-        if not subset.empty:
-            x = subset['Tamaño'].values
-            y = subset['% Pasante'].values
-            
-            # Ordenar los valores
-            sort_idx = np.argsort(x)
-            x = x[sort_idx]
-            y = y[sort_idx]
-            
-            # Crear función de interpolación
-            #f = PchipInterpolator(x, y)
-            
-            # Definir rango para la interpolación
-            #x_min = x.min() if xlim is None else max(x.min(), xlim[0])
-            #x_max = x.max() if xlim is None else min(x.max(), xlim[1])
-            
-            # Crear puntos para curva suavizada (200 puntos en el rango visible)
-            #x_nuevo = np.linspace(x_min, x_max, 20000)
-            #y_nuevo = f(x_nuevo)
-                        # Crear puntos para curva suavizada (200 puntos en el rango visible)
-            x_nuevo = x
-            y_nuevo = y
-            # Graficar la curva con el color seleccionado
-            linetype = '--' if Agrupar_muestras and muestra in grupo2 else '-'
-            ax.plot(x_nuevo, y_nuevo, label=muestra, 
-                    color=colores[muestra], linewidth=2, linestyle=linetype)
-            
-            # Agregar puntos si está habilitado (solo los que están en el rango visible)
-            if mostrar_puntos:
-                if xlim is not None:
-                    mask = (x >= xlim[0]) & (x <= xlim[1])
-                    x_points = x[mask]
-                    y_points = y[mask]
-                else:
-                    x_points = x
-                    y_points = y
-                
-                ax.scatter(x_points, y_points, color=colores[muestra], 
-                          s=50, edgecolor='white', linewidth=1, zorder=3)
-                
-    def barras_textura(x_left,x_right,y,label,df):
-        x_min = max(x_left,df['Tamaño'].min())
-        
-        x_max= min(x_right,df['Tamaño'].max())
-        lines_color= '#383838'
-        lines_width= 1.5
-        lines_alpha=0.6
-        if label== 'Gravas':
-            ax.annotate('', xytext=((4.75),y), 
-                        xy=(x_max, y),
-                        arrowprops=dict(arrowstyle="-|>",alpha=lines_alpha,lw=lines_width, color=lines_color))
-            ax.scatter([x_min], [y], marker='|', s=50, color=lines_color,alpha=lines_alpha,lw=lines_width)
-
-        if label== 'Arenas':
-            ax.hlines(y=y, xmin=x_min, 
-            xmax= x_max,alpha=lines_alpha,
-            colors=lines_color, linestyles='solid')
-            ax.scatter([x_min, x_max], [y, y], marker='|', s=50, color=lines_color,alpha=lines_alpha)
-
-        if df['Tamaño'].min() < (2e-3) and label=='Limos': # hay arcillas
-            ax.hlines(y=y, xmin=x_min, 
-            xmax= x_max,alpha=lines_alpha,
-            colors=lines_color, linestyles='solid')
-            ax.scatter([x_min, x_max], [y, y], marker='|', s=50, color=lines_color,alpha=lines_alpha)
-
-        if df['Tamaño'].min() > (2e-3) and label=='Limos':
-            ax.annotate('', xytext=(x_min*1,y), 
-                        xy=(x_max*.97, y),
-                        arrowprops=dict(arrowstyle="<|-",alpha=lines_alpha,lw=lines_width, color=lines_color))
-            ax.scatter([x_max*.96], [y], marker='|', s=50, color=lines_color,alpha=lines_alpha)
-
-        if df['Tamaño'].min() < (2e-3) and label=='Arcillas':
-            ax.annotate('', xytext=(x_min*1,y), 
-                        xy=(x_max*.97, y),
-                        arrowprops=dict(arrowstyle="<|-",alpha=lines_alpha,lw=lines_width, color=lines_color))
-            ax.scatter([x_max*.96], [y], marker='|', s=50, color=lines_color,alpha=lines_alpha)
-    
-        def middle_log(x_min,x_max):
-            return 10**((np.log10(x_min)+np.log10(x_max))/2)
-        # Gravas
-        ax.text(middle_log(x_min, x_max), y+0.9, label,  alpha=0.5,
-                        ha='center', va='bottom', rotation='horizontal',
-                                bbox=dict(facecolor='white', alpha=1, edgecolor='none', pad=0.2))
-    
-    if not zoom:
-        if df_transformado['Tamaño'].max() > (4.75):
-            barras_textura(x_left=(4.75),x_right=100,y=101,label='Gravas',df=df_transformado)
-        #barras_textura(x_left=(4.75),x_right=100,y=102,label='Gravas',df=df_transformado)
-        barras_textura(x_left=(0.075),x_right=(4.75),y=101,label='Arenas',df=df_transformado)
-        barras_textura(x_left=(0.002),x_right=(0.075),y=101,label='Limos',df=df_transformado)
-        if df_transformado['Tamaño'].min() < (2e-3):
-            barras_textura(x_left=(0.00),x_right=(0.002),y=101,label='Arcillas',df=df_transformado)
-    
-    y_max = ax.get_ylim()[1]  # Esto devuelve el límite superior actual del eje Y
-    # Convertir a escala log10
-    ref_values = {k: (v) for k, v in REFERENCIAS.items()}
-    if not zoom:
-        ax.annotate("", xytext=((3e-2), 5), xy=((0.075), 5),
-            arrowprops=dict(arrowstyle="<-"))
-        ax.text((4.8e-2), 6, 'Finos', ha='center', va='bottom', rotation='horizontal',alpha=0.8,
-                        bbox=dict(facecolor='white', alpha=0, edgecolor='none'))
-
-    if df_transformado['Tamaño'].min()< (2e-3): # hay arcillas
-
-        # Dibujar líneas de referencia (solo si están dentro del rango visible)
-        for nombre, xpos in ref_values.items():
-            if xlim is None or (xlim[0] <= xpos <= xlim[1]):
-                ax.axvline(x=xpos, color='#121212', linestyle='--', alpha=0.7)
-                ax.text(xpos, y_max+0.2, nombre, ha='center', va='bottom', 
-                        bbox=dict(facecolor='white', alpha=0, edgecolor='none'))
-    else:
-        ref_values = {k: v for k, v in ref_values.items() if k != '0,002 mm'}
-        # Dibujar líneas de referencia (solo si están dentro del rango visible)
-        for nombre, xpos in ref_values.items():
-            if xlim is None or (xlim[0] <= xpos <= xlim[1]):
-                ax.axvline(x=xpos, color='#121212', linestyle='--', alpha=0.7)
-                ax.text(xpos, y_max+0.2, nombre, ha='center', va='bottom', 
-                        bbox=dict(facecolor='white', alpha=0, edgecolor='none'))
-
-    ax.set_xscale('log')
-    ax.xaxis.set_major_locator(LogLocator(base=10.0, subs=[1.0]))
-    def log_tick_formatter(val, pos):
-        if val == 0:
-            return "0"
-        elif val < 1:
-            return f"{val:.3f}"
-        else:
-            return f"{val:.1f}"
-
-    ax.xaxis.set_major_formatter(FuncFormatter(log_tick_formatter))
-
-    ax.tick_params(axis='x', which='major', labelsize=10)
-
-    # Locator para líneas menores (entre 1e-2 y 1e-1, por ejemplo: 2e-2, 3e-2, ...)
-    ax.xaxis.set_minor_locator(LogLocator(base=10.0, subs=np.arange(2, 10)*0.1, numticks=100))
-    if not zoom:
-        ax.xaxis.set_minor_formatter(NullFormatter())
-
-    # Ahora sí: aplicar estilos distintos a major y minor gridlines
-    ax.grid(True, which='major', linestyle='-', linewidth=0.8, alpha=0.6, color='black')   # Líneas principales negras
-    ax.grid(True, which='minor', linestyle='--', linewidth=0.7, alpha=0.6, color='gray') # Líneas menores gris
-
-    # Personalización del gráfico
-    ax.set_title(titulo if titulo else 'Curva Granulométrica', fontsize=16, pad=40)
-    ax.set_xlabel('Tamaño (mm)', fontsize=12)
-    ax.set_ylabel('% Pasante', fontsize=12)
-    # Leyenda principal (fuera del gráfico, a la derecha)
-    # Segunda leyenda dentro del gráfico
-    if Agrupar_muestras:
-        linea_grupo1 = Line2D([0], [0], color='black', lw=2, linestyle='-', label=nombre_grupos[0])
-        linea_grupo2 = Line2D([0], [0], color='black', lw=2, linestyle='--', label=nombre_grupos[1])
-        leg2 =ax.legend(handles=[linea_grupo1, linea_grupo2], title='', loc='lower right')
-        ax.add_artist(leg2)  # clave: mantener esta leyenda
-    
-    leg1 = ax.legend(title='Muestras', bbox_to_anchor=(1.36, 1.0), loc='upper right')
-    # Ampliar margen derecho para que se vea la leyenda externa
-    fig.subplots_adjust(right=0.75)
-    
-    if not zoom:
-        ax.set_ylim(0, 106)
-    
-    # Aplicar límites de zoom si se especifican
-    if xlim is not None:
-        ax.set_xlim(xlim[0], xlim[1])
-    
-    if xlim is None:
-        ax.set_xlim(df_transformado['Tamaño'].min()*0.70, 
-                    df_transformado['Tamaño'].max()*1.04)
-    
-    return fig
 
  
-#st.image("./Logo/ausenco-logo.png", width=450) 
 st.logo(
     "./Logo/ausenco-logo.png",
     link="https://www.ausenco.com/",
@@ -339,7 +154,7 @@ with tabs[0]:
     """)
     # Barra lateral para carga de archivos
     with st.sidebar:
-        st.header("Carga y Configuración")
+        #st.header("Carga y Configuración")
         archivo_subido = st.file_uploader("Subir archivo Excel", type=['xlsx', 'xls'],
                                         help="Arrastra y suelta tu archivo o haz clic para seleccionarlo"  # Texto de ayuda
                                         )
@@ -359,7 +174,7 @@ with tabs[0]:
                 
                 st.success("¡Archivo cargado correctamente!")
 
-                        # Opción para mostrar puntos
+                # Opción para mostrar puntos
                 mostrar_puntos = st.checkbox("Mostrar puntos de datos", value=True)
                 
                 # Widget para seleccionar rango de zoom (en escala logarítmica)
@@ -393,7 +208,6 @@ with tabs[0]:
         col1, col2 = st.columns([1, 3])
         
         with col1:
-            # ... (código existente)
             st.subheader("Título del gráfico")
             titulo_grafico = st.text_input(
                 "Título del gráfico",
@@ -460,7 +274,7 @@ with tabs[0]:
             st.header("Gráfico Principal")
             
             # Crear y mostrar el gráfico principal
-            fig_principal = crear_grafico(df_transformado, columna_tamaño, muestras_seleccionadas, colores, None, 
+            fig_principal = fn.crear_grafico(df_transformado, columna_tamaño, muestras_seleccionadas, colores, None, 
                                         mostrar_puntos,zoom=False,titulo=titulo_grafico,
                                         Agrupar_muestras=Agrupar_muestras,grupo2=Grupo2,nombre_grupos=Nombre_grupos)
             st.pyplot(fig_principal)
@@ -478,7 +292,7 @@ with tabs[0]:
             # Mostrar gráfico con zoom si está habilitado
             if zoom_habilitado:
                 st.header("Vista con Zoom")
-                fig_zoom = crear_grafico(df_transformado, columna_tamaño, muestras_seleccionadas, colores, 
+                fig_zoom = fn.crear_grafico(df_transformado, columna_tamaño, muestras_seleccionadas, colores, 
                                     (x_min_zoom, x_max_zoom), mostrar_puntos,zoom=zoom_habilitado,titulo=titulo_grafico,
                                     Agrupar_muestras=Agrupar_muestras,grupo2=Grupo2,nombre_grupos=Nombre_grupos)
                 st.pyplot(fig_zoom)
@@ -497,7 +311,7 @@ with tabs[0]:
             for muestra in muestras_seleccionadas:
                 IP_muestra = df_plasticidad[(df_plasticidad['Muestra'] == muestra) & (df_plasticidad['Nombre'] == 'IP')]['Limite'].values[0]
                 LL_muestra =  df_plasticidad[(df_plasticidad['Muestra'] == muestra) & (df_plasticidad['Nombre'] == 'LL')]['Limite'].values[0]
-                #print(f'Muestra: {muestra}, IP: {IP_muestra}, LL: {LL_muestra}')
+                
                 Sample_processed = fn.texture_preprocess(df=df_transformado,muestra=muestra,LL=LL_muestra, PI=IP_muestra)
                 if Sample_processed.Finos is not None:
                     if  Sample_processed.Finos > 50:
@@ -508,8 +322,6 @@ with tabs[0]:
                     Sample_processed.Errores = '\n'.join(Sample_processed.Errores) if Sample_processed.Errores else None
                 df_m = fn.to_dataframe(Sample_processed)
                 dfs[muestra] = df_m.rename(columns={df_m.columns[1]: muestra})
-
-
 
             # Convertir los dicts a lista y hacer merge secuencial por "Variable"
             df_final = reduce(lambda left, right: pd.merge(left, right, on='Variable', how='outer'), dfs.values())
@@ -659,34 +471,7 @@ with tabs[1]:
         mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     ) 
 
-# st.markdown("---")
-# st.markdown("📩 Contacto: [Francisco.Corvalan@ausenco.com](mailto:Francisco.Corvalan@ausenco.com)")
-
-# with st.sidebar:
-#     st_theme_changer(
-#         themes_data=theme_data, render_mode="button",label="Cambiar Tema",
-#         rerun_whole_st=True, key="first_pills"
-#     )
-
-# with st.sidebar:
-#     if st.button(":material/brightness_4: Cambiar Tema"):
-#         st_theme_changer(
-#             themes_data=theme_data,
-#             render_mode="next",  # cambia al siguiente tema
-#             rerun_whole_st=True,
-#             key="cambiar_tema"
-#         )
-
-# with st.sidebar:
-#     st.markdown("#### :material/brightness_4: Cambiar Tema")
-#     st_theme_changer(
-#         themes_data=theme_data,
-#         render_mode="pills",
-#         rerun_whole_st=True,
-#         key="pills_tema"
-#     )
-
-# Definir ícono según el tema actual}
+# Definir ícono según el tema actual
 active_theme = get_active_theme_key()
 if active_theme in ["soft_dark", "dark", "Dark Midnight"]:
     icono_tema = ":material/light_mode:"  # Sol para cambiar a modo claro
