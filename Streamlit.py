@@ -175,7 +175,7 @@ st.logo(
     link="https://www.ausenco.com/",
     #icon_image="./Logo/ausenco-logo.png",
 )
-tabs = st.tabs(["Aplicación", "Manual de Usuario"])
+tabs = st.tabs(["Aplicación", "Manual de Usuario",' Metodología'])
 
 with tabs[0]:
     # Configuración de la página
@@ -504,20 +504,40 @@ with tabs[1]:
         file_name='formato_ejemplo.xlsx',
         mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     ) 
+with tabs[2]:
+    #st.header("Metodología")	
+    st.markdown(   """
+    ## 1. Introducción
+    Esta aplicación permite realizar el análisis granulométrico de suelos, facilitando tanto la visualización de curvas granulométricas como la clasificación de las muestras. Los datos de entrada deben proporcionarse en formato Excel, con columnas que representen los tamaños de partícula y sus correspondientes valores para cada muestra.
 
-# Definir ícono según el tema actual
-active_theme = get_active_theme_key()
-if active_theme in ["soft_dark", "dark", "Dark Midnight"]:
-    icono_tema = ":material/light_mode:"  # Sol para cambiar a modo claro
-else:
-    icono_tema = ":material/dark_mode:"  # Luna para cambiar a modo oscuro
+    La clasificación de los suelos se realiza utilizando el **Sistema Unificado de Clasificación de Suelos (USCS)**, de acuerdo con lo establecido por la normativa **ASTM D2487-06** [(ver norma)](https://store.astm.org/d2487-06.html).
+            
+    ## 2. Determinación de contenidos de arcillas, limos y arenas:
+                
+    Para estimar el contenido de cada fracción textural (arcillas, limos, arenas y gravas), el sistema primero verifica si estos datos están presentes en el archivo cargado. En caso afirmativo, se utilizan directamente. Si uno o más valores están ausentes, se aplica **interpolación lineal en escala logarítmica**, siempre que existan datos mayores y menores al límite de fracción buscado.
 
-# Mostrar el botón con ícono dinámico
-with st.sidebar:
-    if st.button(f"{icono_tema}", key="toggle_theme"):
-        st_theme_changer(
-            themes_data=theme_data,
-            render_mode="next",
-            rerun_whole_st=True,
-            key="theme_next"
-        )
+    Los diámetros correspondientes a cada fracción textural siguen los criterios de la **Asociación Americana de Funcionarios de Transporte y Carreteras Estatales (AASHTO)**:
+
+    | Fracción | Tamaño del grano (mm) |
+    |----------|-----------------------|
+    | Grava    | 76,2 - 2              |
+    | Arenas   | 2 - 0,075             |
+    | Limos    | 0,075 - 0,002         |
+    | Arcillas | <0,002                |
+                
+    ## 3. Determinación de D10, D30 y D60
+    Los percentiles granulométricos D10, D30 y D60 se obtienen mediante **interpolación lineal en escala logarítmica**, a partir de los datos granulométricos disponibles para cada muestra.
+
+
+    ## 4. Asumciónes ante la falta de datos y limitaciones
+    - Si faltan los valores de **Límite Líquido (LL)** y/o **Índice de Plasticidad (IP)**, se asume una **plasticidad baja** (por debajo de la línea "A") para suelos con más del 50% de finos, asignando una clasificación tentativa **ML** u **OL** según corresponda.
+    - La aplicación **no valida ni corrige los datos de entrada**. Es responsabilidad del usuario asegurar que el archivo tenga el formato y contenido adecuado.
+    - En ausencia de valores directos de contenido textural (arcillas, limos o arenas), se aplicará interpolación solo si existen datos suficientes para ello.
+    - Se asume que los suelos **no son orgánicos**.
+
+    ## 5. Errores comunes
+    En los resultados de clasificación se adjuntan los errores encontrados durante el procesamiento de las muestras. Estos errores pueden incluir:
+    - **Faltantes de datos** necesarios para la clasificación.
+    - **Supuestos aplicados** debido a la ausencia de información clave.
+    - **Fallas de interpolación**, cuando no se dispone de datos suficientes para estimar un valor (es decir, cuando faltan datos por encima y por debajo del punto buscado).
+""")
