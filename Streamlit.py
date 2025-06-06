@@ -93,11 +93,14 @@ st.markdown("""
 
 
     <div class="footer">
-        <a href="mailto:Francisco.Corvalan@ausenco.com"> 📧 Contacto: Francisco.Corvalan@ausenco.com</a>
-        <a href="https://www.ausenco.com/" target="_blank">
-            <img src="https://miningalati.com/wp-content/uploads/2023/06/ausenco-logo.png" alt="Ausenco logo">
-        </a>
-
+        <div>
+            📧 Contacto: <a href="mailto:Francisco.Corvalan@ausenco.com">Francisco.Corvalan@ausenco.com</a>
+        </div>
+        <div>
+            <a href="https://www.ausenco.com/" target="_blank">
+                <img src="https://miningalati.com/wp-content/uploads/2023/06/ausenco-logo.png" alt="Ausenco logo">
+            </a>
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
