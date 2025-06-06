@@ -541,3 +541,20 @@ with tabs[2]:
     - **Supuestos aplicados** debido a la ausencia de información clave.
     - **Fallas de interpolación**, cuando no se dispone de datos suficientes para estimar un valor (es decir, cuando faltan datos por encima y por debajo del punto buscado).
 """)
+
+# Definir ícono según el tema actual
+active_theme = get_active_theme_key()
+if active_theme in ["soft_dark", "dark", "Dark Midnight"]:
+    icono_tema = ":material/light_mode:"  # Sol para cambiar a modo claro
+else:
+    icono_tema = ":material/dark_mode:"  # Luna para cambiar a modo oscuro
+
+# Mostrar el botón con ícono dinámico
+with st.sidebar:
+    if st.button(f"{icono_tema}", key="toggle_theme"):
+        st_theme_changer(
+            themes_data=theme_data,
+            render_mode="next",
+            rerun_whole_st=True,
+            key="theme_next"
+        )
