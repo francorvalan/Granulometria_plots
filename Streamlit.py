@@ -524,7 +524,7 @@ with tabs[2]:
     | Arenas   | 2 - 0,075             |
     | Limos    | 0,075 - 0,002         |
     | Arcillas | <0,002                |
-                
+                 
     ## 3. Determinación de D10, D30 y D60
     Los percentiles granulométricos D10, D30 y D60 se obtienen mediante **interpolación lineal en escala logarítmica**, a partir de los datos granulométricos disponibles para cada muestra.
 
