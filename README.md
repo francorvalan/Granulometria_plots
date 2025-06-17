@@ -46,5 +46,5 @@ Podés descargar un ejemplo de archivo desde la misma app o hacer clic aquí: [�
 1. Cloná este repositorio:
 
 ```bash
-git clone https://github.com/francorvalan/granulometria-streamlit.git
+git clone https://github.com/francorvalan/Granulometria_plots.git
 cd granulometria-streamlit
