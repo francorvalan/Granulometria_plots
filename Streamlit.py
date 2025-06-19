@@ -18,9 +18,9 @@ from cryptography.fernet import Fernet
 
 key_str = st.secrets["STREAMLIT_GRANULOMETRIA_KEY"]
 
-if not STREAMLIT_GRANULOMETRIA_KEY:
+if not key_str:
     raise RuntimeError("No se encontró la clave STREAMLIT_GRANULOMETRIA_KEY")
-key = STREAMLIT_GRANULOMETRIA_KEY.encode()
+key = key_str.encode()
 
 fernet = Fernet(key)
 
