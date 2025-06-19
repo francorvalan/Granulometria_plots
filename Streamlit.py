@@ -198,7 +198,7 @@ df_transformado = None
 st.logo(
     "./Logo/ausenco-logo.png",
     #link="https://www.ausenco.com/",
-    size="medium"
+    size="large"
     #icon_image="./Logo/ausenco-logo.png",
 )
 tabs = st.tabs(["Aplicación", "Manual de Usuario",' Metodología'])
