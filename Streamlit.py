@@ -7,7 +7,7 @@ from io import BytesIO
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 import matplotlib.pyplot as plt
-import functions as fn
+#import functions as fn
 from functools import reduce
 from openpyxl import load_workbook
 from openpyxl.styles import Font, Border, Side
@@ -29,12 +29,12 @@ with open("functions.py.enc", "rb") as f:
     decrypted_code = fernet.decrypt(f.read())
 
 # Crear un namespace aislado para las funciones
-fn2 = {}
+fn = {}
 
 # Ejecutar el código descifrado dentro del dict `fn`
-exec(decrypted_code, fn2)
-print("Test")
-fn2["prueba_encriptado"]("Fran")
+exec(decrypted_code, fn)
+# print("Test")
+# fn2["prueba_encriptado"]("Fran")
 
 
 try:
@@ -221,7 +221,7 @@ with tabs[0]:
         if archivo_subido is not None:
             try:
                 df = pd.read_excel(archivo_subido)
-                df_transformado,df_plasticidad = fn.df_process(df)
+                df_transformado,df_plasticidad = fn["df_process"](df) # fn.df_process(df)
                 # Asumimos que la primera columna es 'Tamaño' y las demás son muestras
                 columna_tamaño = 'Tamaño'
                 columnas_muestras = df.columns[1:]
@@ -296,7 +296,7 @@ with tabs[0]:
 
             #palette = plt.colormaps.get_cmap('tab10').resampled(len(muestras_seleccionadas))
             # Obtener colores según selección
-            colores_usar = fn.obtener_colores(paleta_seleccionada, len(muestras_seleccionadas))
+            colores_usar = fn["obtener_colores"](paleta_seleccionada, len(muestras_seleccionadas))#fn.obtener_colores(paleta_seleccionada, len(muestras_seleccionadas))
 
             palette = ListedColormap(colores_usar)
             option = st.selectbox(
@@ -344,9 +344,15 @@ with tabs[0]:
             st.header("Gráfico Principal")
             
             # Crear y mostrar el gráfico principal
-            fig_principal = fn.crear_grafico(df_transformado, columna_tamaño, muestras_seleccionadas, colores, None, 
-                                        mostrar_puntos,zoom=False,titulo=titulo_grafico,
-                                        Agrupar_muestras=Agrupar_muestras,grupo2=Grupo2,nombre_grupos=Nombre_grupos)
+            fig_principal = fn["crear_grafico"](
+                df_transformado, columna_tamaño, muestras_seleccionadas,
+                colores, None, mostrar_puntos, zoom=False,
+                titulo=titulo_grafico, Agrupar_muestras=Agrupar_muestras,
+                grupo2=Grupo2, nombre_grupos=Nombre_grupos
+            )
+            # fn.crear_grafico(df_transformado, columna_tamaño, muestras_seleccionadas, colores, None, 
+            #                             mostrar_puntos,zoom=False,titulo=titulo_grafico,
+            #                             Agrupar_muestras=Agrupar_muestras,grupo2=Grupo2,nombre_grupos=Nombre_grupos)
             st.pyplot(fig_principal)
             
             # Botón para descargar el gráfico principal
@@ -362,9 +368,16 @@ with tabs[0]:
             # Mostrar gráfico con zoom si está habilitado
             if zoom_habilitado:
                 st.header("Vista con Zoom")
-                fig_zoom = fn.crear_grafico(df_transformado, columna_tamaño, muestras_seleccionadas, colores, 
-                                    (x_min_zoom, x_max_zoom), mostrar_puntos,zoom=zoom_habilitado,titulo=titulo_grafico,
-                                    Agrupar_muestras=Agrupar_muestras,grupo2=Grupo2,nombre_grupos=Nombre_grupos)
+                fig_zoom = fn["crear_grafico"](
+                                df_transformado, columna_tamaño, muestras_seleccionadas,
+                                colores, (x_min_zoom, x_max_zoom), mostrar_puntos,
+                                zoom=zoom_habilitado, titulo=titulo_grafico,
+                                Agrupar_muestras=Agrupar_muestras,
+                                grupo2=Grupo2, nombre_grupos=Nombre_grupos
+                            )
+                # fn.crear_grafico(df_transformado, columna_tamaño, muestras_seleccionadas, colores, 
+                #                     (x_min_zoom, x_max_zoom), mostrar_puntos,zoom=zoom_habilitado,titulo=titulo_grafico,
+                #                     Agrupar_muestras=Agrupar_muestras,grupo2=Grupo2,nombre_grupos=Nombre_grupos)
                 st.pyplot(fig_zoom)
                 
                 # Botón para descargar el gráfico con zoom
@@ -382,15 +395,18 @@ with tabs[0]:
                 IP_muestra = df_plasticidad[(df_plasticidad['Muestra'] == muestra) & (df_plasticidad['Nombre'] == 'IP')]['Limite'].values[0]
                 LL_muestra =  df_plasticidad[(df_plasticidad['Muestra'] == muestra) & (df_plasticidad['Nombre'] == 'LL')]['Limite'].values[0]
                 
-                Sample_processed = fn.texture_preprocess(df=df_transformado,muestra=muestra,LL=LL_muestra, PI=IP_muestra)
+                Sample_processed = fn["texture_preprocess"](
+                                        df=df_transformado, muestra=muestra, LL=LL_muestra, PI=IP_muestra
+                                    )
+                #fn.texture_preprocess(df=df_transformado,muestra=muestra,LL=LL_muestra, PI=IP_muestra)
                 if Sample_processed.Finos is not None:
                     if  Sample_processed.Finos > 50:
-                        fn.USCS_finos(Sample_processed)
+                        fn["USCS_finos"](Sample_processed) # fn.USCS_finos(Sample_processed)
                     else:
-                        fn.USCS_granular(Sample_processed)
+                        fn["USCS_granular"](Sample_processed)#fn.USCS_granular(Sample_processed)
                 else:
                     Sample_processed.Errores = '\n'.join(Sample_processed.Errores) if Sample_processed.Errores else None
-                df_m = fn.to_dataframe(Sample_processed)
+                df_m = fn["to_dataframe"](Sample_processed)#fn.to_dataframe(Sample_processed)
                 dfs[muestra] = df_m.rename(columns={df_m.columns[1]: muestra})
 
             # Convertir los dicts a lista y hacer merge secuencial por "Variable"
