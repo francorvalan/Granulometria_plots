@@ -34,7 +34,7 @@ fn = {}
 # Ejecutar el código descifrado dentro del dict `fn`
 exec(decrypted_code, fn)
 
-print(fn["prueba_encriptado"](""))
+print(fn["prueba_encriptado"](" "))
 
 
 try:
