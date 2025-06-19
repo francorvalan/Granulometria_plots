@@ -11,9 +11,9 @@ Ausenco_pallet = ['#101820','#004764',"#c6d1da",'#0095c8',"#b6c41d",
                   "#ffdb49",'#db7121','#a1292f','#662766',"#7E5B68",
                   "#267730","#4EBB5C","#4F5B66"]
 
-def prueba_encriptado():
-    print("funciono perfecto")
-    
+def prueba_encriptado(nombre):
+    print(f"Hola {nombre}, funcionó perfecto")
+
 def obtener_colores(paleta, n_colores):
     if paleta == "Ausenco":
         if n_colores <= len(Ausenco_pallet):
