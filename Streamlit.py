@@ -133,7 +133,7 @@ st.markdown("""
 
     <div class="footer">
         <div class="footer-content">
-            <a href="mailto:Francisco.Corvalan@ausenco.com">📧 Contacto: Francisco.Corvalan@ausenco.com</a>
+            <a href="mailto:francisco.corvalan6@gmail.com">📧 Contacto: francisco.corvalan6@gmail.com</a>
         </div>
 
     </div>
