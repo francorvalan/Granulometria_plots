@@ -7,7 +7,7 @@ from io import BytesIO
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 import matplotlib.pyplot as plt
-#import functions as fn
+import functions as fn
 from functools import reduce
 from openpyxl import load_workbook
 from openpyxl.styles import Font, Border, Side
@@ -15,24 +15,24 @@ import sys
 import os
 from cryptography.fernet import Fernet
 # Obtener la clave desde GitHub Actions (ya configurada como secret)
-key_str = os.getenv("STREAMLIT_GRANULOMETRIA_KEY")
-if not key_str:
-    raise RuntimeError("No se encontró la clave STREAMLIT_GRANULOMETRIA_KEY")
-key = key_str.encode()
+# key_str = os.getenv("STREAMLIT_GRANULOMETRIA_KEY")
+# if not key_str:
+#     raise RuntimeError("No se encontró la clave STREAMLIT_GRANULOMETRIA_KEY")
+# key = key_str.encode()
 
-fernet = Fernet(key)
+# fernet = Fernet(key)
 
-# Leer y descifrar functions.py.enc
-with open("functions.py.enc", "rb") as f:
-    decrypted_code = fernet.decrypt(f.read())
+# # Leer y descifrar functions.py.enc
+# with open("functions.py.enc", "rb") as f:
+#     decrypted_code = fernet.decrypt(f.read())
 
-# Crear un namespace aislado para las funciones
-fn = {}
+# # Crear un namespace aislado para las funciones
+# fn = {}
 
-# Ejecutar el código descifrado dentro del dict `fn`
-exec(decrypted_code, fn)
+# # Ejecutar el código descifrado dentro del dict `fn`
+# exec(decrypted_code, fn)
 
-print(fn["prueba_encriptado"](""))
+# print(fn["prueba_encriptado"](""))
 
 
 try:
