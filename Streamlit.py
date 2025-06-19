@@ -29,12 +29,12 @@ with open("functions.py.enc", "rb") as f:
     decrypted_code = fernet.decrypt(f.read())
 
 # Crear un namespace aislado para las funciones
-fn = {}
+fn2 = {}
 
 # Ejecutar el código descifrado dentro del dict `fn`
-exec(decrypted_code, fn)
+exec(decrypted_code, fn2)
 print("Test")
-fn["prueba_encriptado"]("Fran")
+fn2["prueba_encriptado"]("Fran")
 
 
 try:
