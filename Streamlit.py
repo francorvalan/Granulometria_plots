@@ -562,7 +562,7 @@ with tabs[2]:
     Los percentiles granulométricos D10, D30 y D60 se obtienen mediante **interpolación lineal en escala logarítmica**, a partir de los datos granulométricos disponibles para cada muestra.
 
 
-    ## 4. Asumciónes ante la falta de datos y limitaciones
+    ## 4. Supuestos ante la falta de datos y sus limitaciones
     - Si faltan los valores de **Límite Líquido (LL)** y/o **Índice de Plasticidad (IP)**, se asume una **plasticidad baja** (por debajo de la línea "A") para suelos con más del 50% de finos, asignando una clasificación tentativa **ML** u **OL** según corresponda.
     - La aplicación **no valida ni corrige los datos de entrada**. Es responsabilidad del usuario asegurar que el archivo tenga el formato y contenido adecuado.
     - En ausencia de valores directos de contenido textural (arcillas, limos o arenas), se aplicará interpolación solo si existen datos suficientes para ello.
