@@ -15,7 +15,7 @@ import sys
 import os
 from cryptography.fernet import Fernet
 # Obtener la clave desde GitHub Actions (ya configurada como secret)
-st.write("key_str", st.secrets["STREAMLIT_GRANULOMETRIA_KEY"])
+st.write("STREAMLIT_GRANULOMETRIA_KEY", st.secrets["STREAMLIT_GRANULOMETRIA_KEY"])
 
 if not STREAMLIT_GRANULOMETRIA_KEY:
     raise RuntimeError("No se encontró la clave STREAMLIT_GRANULOMETRIA_KEY")
