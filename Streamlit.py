@@ -135,11 +135,7 @@ st.markdown("""
         <div class="footer-content">
             <a href="mailto:Francisco.Corvalan@ausenco.com">📧 Contacto: Francisco.Corvalan@ausenco.com</a>
         </div>
-        /*<div class="logo-container">*/
-        /*    <a href="https://www.ausenco.com/" target="_blank">*/
-        /*        <img src="https://miningalati.com/wp-content/uploads/2023/06/ausenco-logo.png" alt="Ausenco logo">*/
-        /*    </a>*/
-        </div>*/
+
     </div>
     """, unsafe_allow_html=True)
 
