@@ -15,24 +15,25 @@ import sys
 import os
 from cryptography.fernet import Fernet
 # Obtener la clave desde GitHub Actions (ya configurada como secret)
-# key_str = os.getenv("STREAMLIT_GRANULOMETRIA_KEY")
-# if not key_str:
-#     raise RuntimeError("No se encontró la clave STREAMLIT_GRANULOMETRIA_KEY")
-# key = key_str.encode()
+st.write("key_str", st.secrets["STREAMLIT_GRANULOMETRIA_KEY"])
 
-# fernet = Fernet(key)
+if not STREAMLIT_GRANULOMETRIA_KEY:
+    raise RuntimeError("No se encontró la clave STREAMLIT_GRANULOMETRIA_KEY")
+key = STREAMLIT_GRANULOMETRIA_KEY.encode()
 
-# # Leer y descifrar functions.py.enc
-# with open("functions.py.enc", "rb") as f:
-#     decrypted_code = fernet.decrypt(f.read())
+fernet = Fernet(key)
 
-# # Crear un namespace aislado para las funciones
-# fn = {}
+# Leer y descifrar functions.py.enc
+with open("functions.py.enc", "rb") as f:
+    decrypted_code = fernet.decrypt(f.read())
 
-# # Ejecutar el código descifrado dentro del dict `fn`
-# exec(decrypted_code, fn)
+# Crear un namespace aislado para las funciones
+fn = {}
 
-# print(fn["prueba_encriptado"](""))
+# Ejecutar el código descifrado dentro del dict `fn`
+exec(decrypted_code, fn)
+
+print(fn["prueba_encriptado"](""))
 
 
 try:
