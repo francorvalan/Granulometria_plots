@@ -1,40 +1,42 @@
+# config.yaml
+
 cookie:
-  expiry_days: 30
-  key: aaa # To be filled with any string
-  name: franc # To be filled with any string
+  name: franc                   # Nombre de la cookie
+  key: your-secure-cookie-key   # Cadena secreta aleatoria
+  expiry_days: 30               # Vence en 30 días
+
 credentials:
   usernames:
     jsmith:
-      email: jsmith@gmail.com
-      failed_login_attempts: 0 # Will be managed automatically
       first_name: John
       last_name: Smith
-      logged_in: False # Will be managed automatically
-      password: abc # Will be hashed automatically
-      roles: # Optional
-      - admin
-      - editor
-      - viewer
+      email: jsmith@gmail.com
+      password: abc             # Se hashea al inicializar
+      roles:
+        - admin
+        - editor
+        - viewer
     rbriggs:
-      email: rbriggs@gmail.com
-      failed_login_attempts: 0 # Will be managed automatically
       first_name: Rebecca
       last_name: Briggs
-      logged_in: False # Will be managed automatically
-      password: def # Will be hashed automatically
-      roles: # Optional
-      - viewer
-oauth2: # Optional
-  google: # Follow instructions: https://developers.google.com/identity/protocols/oauth2
-    client_id: # To be filled
-    client_secret: # To be filled
-    redirect_uri: # URL to redirect to after OAuth2 authentication
-  microsoft: # Follow instructions: https://learn.microsoft.com/en-us/graph/auth-register-app-v2
-    client_id: # To be filled
-    client_secret: # To be filled
-    redirect_uri: # URL to redirect to after OAuth2 authentication
-    tenant_id: # To be filled
-pre-authorized: # Optional
+      email: rbriggs@gmail.com
+      password: def
+      roles:
+        - viewer
+
+oauth2:
+  google:
+    client_id: your-google-client-id
+    client_secret: your-google-client-secret
+    redirect_uri: https://your-app-url/.auth/google/callback
+  microsoft:
+    client_id: your-ms-client-id
+    client_secret: your-ms-client-secret
+    tenant_id: your-tenant-id
+    redirect_uri: https://your-app-url/.auth/microsoft/callback
+
+pre-authorized:
   emails:
-  - melsby@gmail.com
-api_key: # Optional - register to receive a free API key: https://stauthenticator.com
+    - melsby@gmail.com
+
+api_key: your-stauthenticator-api-key
