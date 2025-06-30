@@ -63,9 +63,9 @@ st.markdown("""
     }
 
     # /* Sidebar y fondo */
-    # section[data-testid="stSidebar"] {
-    #     background-color: #002f42;
-    # }
+    section[data-testid="stSidebar"] {
+        background-color: #002f42;
+    }
 
     div[data-testid="stAppViewContainer"] > main {
         background-color: #002f42;
