@@ -25,7 +25,6 @@ from streamlit_plugins.components.theme_changer import get_active_theme_key
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
 
-# Inicializa el autenticador
 authenticator = stauth.Authenticate(
     config['credentials'],
     config['cookie']['name'],
@@ -33,51 +32,27 @@ authenticator = stauth.Authenticate(
     config['cookie']['expiry_days']
 )
 
-# Login form
-name, auth_status, username = authenticator.login('Login', 'main')
+try:
+    authenticator.login()
+except Exception as e:
+    st.error(e)
 
-if auth_status:
-    # Usuario autenticado
-    st.sidebar.success(f"Welcome *{name}*")
-    authenticator.logout('Logout', 'sidebar')
-    
-    # Resto de tu aplicación
-    st.write("🔒 Aplicación protegida")
-    # ... aquí tu lógica: carga de datos, gráficos, etc. ...
+try:
+    authenticator.experimental_guest_login('Login with Google',
+                                           provider='google',
+                                           oauth2=config['oauth2'])
+except Exception as e:
+    st.error(e)
 
-elif auth_status is False:
-    # Credenciales incorrectas
-    st.error("❌ Username/password incorrect")
-
-else:
-    # auth_status is None: aún no ingresó nada
-    st.info("ℹ️ Please enter your credentials or use guest login")
-    
-    # Botones de login de invitado (opcional)
-    authenticator.experimental_guest_login(
-        'Login with Google',
-        provider='google',
-        oauth2=config['oauth2']
-    )
-    authenticator.experimental_guest_login(
-        'Login with Microsoft',
-        provider='microsoft',
-        oauth2=config['oauth2']
-    )
-# else:
-#     st.info("ℹ️ Por favor ingresa tus credenciales o usa login de invitado")
-
-#     # Login de invitados
-#     authenticator.experimental_guest_login(
-#         'Login with Google',
-#         provider='google',
-#         oauth2=config['oauth2']
-#     )
-#     authenticator.experimental_guest_login(
-#         'Login with Microsoft',
-#         provider='microsoft',
-#         oauth2=config['oauth2']
-#     )
+try:
+    authenticator.experimental_guest_login('Login with Google',
+                                           provider='google',
+                                           oauth2=config['oauth2'])
+    authenticator.experimental_guest_login('Login with Microsoft',
+                                           provider='microsoft',
+                                           oauth2=config['oauth2'])
+except Exception as e:
+    st.error(e)
 
 # Obtener la clave desde GitHub Actions (ya configurada como secret)
 
