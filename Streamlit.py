@@ -24,28 +24,32 @@ from streamlit_plugins.components.theme_changer import get_active_theme_key
 
 with open('./config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
-    
-authenticator = stauth.Authenticate(
-    config['credentials'],
-    config['cookie']['name'],
-    config['cookie']['key'],
-    config['cookie']['expiry_days']
-)
 
 try:
-    name, authentication_status, username = authenticator.login('Login', 'main')
+    authenticator.login()
 except Exception as e:
     st.error(e)
 
-if authentication_status:
-    authenticator.logout('Logout', 'main')
-    st.write(f'Welcome *{name}*')
-    st.title('Some content')
-elif authentication_status == False:
-    st.error('Username/password is incorrect')
-elif authentication_status == None:
-    st.warning('Please enter your username and password')
+try:
+    authenticator.experimental_guest_login('Login with Google',
+                                           provider='google',
+                                           oauth2=config['oauth2'])
+    authenticator.experimental_guest_login('Login with Microsoft',
+                                           provider='microsoft',
+                                           oauth2=config['oauth2'])
+except Exception as e:
+    st.error(e)
 
+try:
+    authenticator.experimental_guest_login('Login with Google',
+                                           provider='google',
+                                           oauth2=config['oauth2'])
+    authenticator.experimental_guest_login('Login with Microsoft',
+                                           provider='microsoft',
+                                           oauth2=config['oauth2'])
+except Exception as e:
+    st.error(e)
+        
 # Obtener la clave desde GitHub Actions (ya configurada como secret)
 
 key_str = st.secrets["STREAMLIT_GRANULOMETRIA_KEY"]
