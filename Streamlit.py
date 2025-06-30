@@ -1,4 +1,5 @@
 import streamlit as st
+st.set_page_config(page_title="Análisis Granulométrico", layout="wide")
 import pandas as pd
 import numpy as np
 
@@ -21,6 +22,8 @@ from yaml.loader import SafeLoader
 from streamlit_plugins.components.theme_changer import get_active_theme_key, st_theme_changer
 from streamlit_plugins.components.theme_changer.entity import ThemeInfo, ThemeInput, ThemeBaseLight, ThemeBaseDark
 from streamlit_plugins.components.theme_changer import get_active_theme_key
+
+
 
 with open('config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
@@ -90,7 +93,7 @@ except ImportError:
 
 
 
-st.set_page_config(page_title="Análisis Granulométrico", layout="wide")
+
 
 #active_theme = get_active_theme_key()
 # Inyectar fuente Roboto
