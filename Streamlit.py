@@ -13,7 +13,12 @@ from openpyxl.styles import Font, Border, Side
 import sys
 import os
 from cryptography.fernet import Fernet
-# Obtener la clave desde GitHub Actions (ya configurada como secret)
+
+from streamlit_plugins.components.theme_changer import get_active_theme_key, st_theme_changer
+from streamlit_plugins.components.theme_changer.entity import ThemeInfo, ThemeInput, ThemeBaseLight, ThemeBaseDark
+#from streamlit_plugins.components.theme_changer import get_active_theme_key
+
+# Obtener la clave (ya configurada como secret)
 
 key_str = st.secrets["STREAMLIT_GRANULOMETRIA_KEY"]
 
@@ -41,9 +46,6 @@ try:
 except ImportError:
     pass
 
-from streamlit_plugins.components.theme_changer import get_active_theme_key, st_theme_changer
-from streamlit_plugins.components.theme_changer.entity import ThemeInfo, ThemeInput, ThemeBaseLight, ThemeBaseDark
-#from streamlit_plugins.components.theme_changer import get_active_theme_key
 
 st.set_page_config(page_title="Análisis Granulométrico", layout="wide")
 
