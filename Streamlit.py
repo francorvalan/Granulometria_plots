@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-
 #from scipy.interpolate import PchipInterpolator
 from io import BytesIO
 import matplotlib.pyplot as plt
@@ -14,14 +13,18 @@ from openpyxl.styles import Font, Border, Side
 import sys
 import os
 from cryptography.fernet import Fernet
-# Obtener la clave desde GitHub Actions (ya configurada como secret)
+
+from streamlit_plugins.components.theme_changer import get_active_theme_key, st_theme_changer
+from streamlit_plugins.components.theme_changer.entity import ThemeInfo, ThemeInput, ThemeBaseLight, ThemeBaseDark
+#from streamlit_plugins.components.theme_changer import get_active_theme_key
+
+# Obtener la clave (ya configurada como secret)
 
 key_str = st.secrets["STREAMLIT_GRANULOMETRIA_KEY"]
 
 if not key_str:
     raise RuntimeError("No se encontró la clave STREAMLIT_GRANULOMETRIA_KEY")
 key = key_str.encode()
-
 fernet = Fernet(key)
 
 # Leer y descifrar functions.py.enc
@@ -43,13 +46,10 @@ try:
 except ImportError:
     pass
 
-from streamlit_plugins.components.theme_changer import get_active_theme_key, st_theme_changer
-from streamlit_plugins.components.theme_changer.entity import ThemeInfo, ThemeInput, ThemeBaseLight, ThemeBaseDark
-from streamlit_plugins.components.theme_changer import get_active_theme_key
 
 st.set_page_config(page_title="Análisis Granulométrico", layout="wide")
 
-#active_theme = get_active_theme_key()
+active_theme = get_active_theme_key()
 # Inyectar fuente Roboto
 
 st.markdown("""
@@ -63,9 +63,9 @@ st.markdown("""
     }
 
     # /* Sidebar y fondo */
-    # section[data-testid="stSidebar"] {
-    #     background-color: #002f42;
-    # }
+    section[data-testid="stSidebar"] {
+        background-color: #002f42;
+    }
 
     div[data-testid="stAppViewContainer"] > main {
         background-color: #002f42;
