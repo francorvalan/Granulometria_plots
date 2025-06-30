@@ -37,18 +37,23 @@ authenticator = stauth.Authenticate(
 name, auth_status, username = authenticator.login('Login', 'main')
 
 if auth_status:
+    # Usuario autenticado
     st.sidebar.success(f"Welcome *{name}*")
     authenticator.logout('Logout', 'sidebar')
     
-    # Aquí va el resto de tu app
+    # Resto de tu aplicación
     st.write("🔒 Aplicación protegida")
-    
-elif auth_status is False:
-    st.error("❌ Usuario o contraseña incorrectos")
-else:
-    st.info("ℹ️ Por favor ingresa tus credenciales o usa login de invitado")
+    # ... aquí tu lógica: carga de datos, gráficos, etc. ...
 
-    # Login de invitados
+elif auth_status is False:
+    # Credenciales incorrectas
+    st.error("❌ Username/password incorrect")
+
+else:
+    # auth_status is None: aún no ingresó nada
+    st.info("ℹ️ Please enter your credentials or use guest login")
+    
+    # Botones de login de invitado (opcional)
     authenticator.experimental_guest_login(
         'Login with Google',
         provider='google',
@@ -59,6 +64,20 @@ else:
         provider='microsoft',
         oauth2=config['oauth2']
     )
+# else:
+#     st.info("ℹ️ Por favor ingresa tus credenciales o usa login de invitado")
+
+#     # Login de invitados
+#     authenticator.experimental_guest_login(
+#         'Login with Google',
+#         provider='google',
+#         oauth2=config['oauth2']
+#     )
+#     authenticator.experimental_guest_login(
+#         'Login with Microsoft',
+#         provider='microsoft',
+#         oauth2=config['oauth2']
+#     )
 
 # Obtener la clave desde GitHub Actions (ya configurada como secret)
 
