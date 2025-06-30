@@ -98,9 +98,9 @@ st.markdown("""
         background-color: #101820;
         color: white;
         display: flex;
-        justify-content: center; /* Centra el contenido principal */
+        justify-content: center;
         align-items: center;
-        padding: 10px 60px 10px 20px;  /* espacio a la derecha para el logo */
+        padding: 10px 60px 10px 20px;
         font-size: 14px;
         z-index: 100;
         box-sizing: border-box;
@@ -114,7 +114,7 @@ st.markdown("""
     .footer img {
         height: 30px;
         margin-left: auto;
-        margin-right: 20px; /* ajusta este valor según cuán a la derecha lo quieras */
+        margin-right: 20px;
     }
 
     .footer a {
@@ -123,9 +123,9 @@ st.markdown("""
         font-weight: bold;
     }
 
+    /* Mejor que usar absolute */
     .logo-container {
-        position: absolute;
-        right: 0;
+        margin-left: auto;
         padding-right: 20px;
     }
     </style>
