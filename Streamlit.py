@@ -25,42 +25,42 @@ from streamlit_plugins.components.theme_changer import get_active_theme_key
 
 
 
-with open('config.yaml') as file:
-    config = yaml.load(file, Loader=SafeLoader)
+# with open('config.yaml') as file:
+#     config = yaml.load(file, Loader=SafeLoader)
 
-authenticator = stauth.Authenticate(
-    config['credentials'],
-    config['cookie']['name'],
-    config['cookie']['key'],
-    config['cookie']['expiry_days']
-)
+# authenticator = stauth.Authenticate(
+#     config['credentials'],
+#     config['cookie']['name'],
+#     config['cookie']['key'],
+#     config['cookie']['expiry_days']
+# )
 
-name, auth_status, username = authenticator.login('Login', 'main')
-# 4. Gestión de estados de autenticación
-if auth_status:
-    st.sidebar.success(f"Welcome *{name}*")
-    # Logout en sidebar
-    authenticator.logout('Logout', 'sidebar')
-    # Aquí va el resto de tu app protegida
-    st.write("🔒 Aplicación protegida")
-    # … procesamiento, gráficas, descargas, etc.
+# name, auth_status, username = authenticator.login('Login', 'main')
+# # 4. Gestión de estados de autenticación
+# if auth_status:
+#     st.sidebar.success(f"Welcome *{name}*")
+#     # Logout en sidebar
+#     authenticator.logout('Logout', 'sidebar')
+#     # Aquí va el resto de tu app protegida
+#     st.write("🔒 Aplicación protegida")
+#     # … procesamiento, gráficas, descargas, etc.
 
-elif auth_status is False:
-    st.error("❌ Username/password incorrect")
+# elif auth_status is False:
+#     st.error("❌ Username/password incorrect")
 
-else:  # auth_status is None
-    st.info("ℹ️ Please enter your credentials or use guest login")
-    # Solo si aún no está logueado mostramos opciones de invitado
-    authenticator.experimental_guest_login(
-        'Login with Google',
-        provider='google',
-        oauth2=config['oauth2']
-    )
-    authenticator.experimental_guest_login(
-        'Login with Microsoft',
-        provider='microsoft',
-        oauth2=config['oauth2']
-    )
+# else:  # auth_status is None
+#     st.info("ℹ️ Please enter your credentials or use guest login")
+#     # Solo si aún no está logueado mostramos opciones de invitado
+#     authenticator.experimental_guest_login(
+#         'Login with Google',
+#         provider='google',
+#         oauth2=config['oauth2']
+#     )
+#     authenticator.experimental_guest_login(
+#         'Login with Microsoft',
+#         provider='microsoft',
+#         oauth2=config['oauth2']
+#     )
 
 # Obtener la clave desde GitHub Actions (ya configurada como secret)
 
