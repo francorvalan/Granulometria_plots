@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+
 #from scipy.interpolate import PchipInterpolator
 from io import BytesIO
 import matplotlib.pyplot as plt
@@ -13,18 +14,14 @@ from openpyxl.styles import Font, Border, Side
 import sys
 import os
 from cryptography.fernet import Fernet
-
-from streamlit_plugins.components.theme_changer import get_active_theme_key, st_theme_changer
-from streamlit_plugins.components.theme_changer.entity import ThemeInfo, ThemeInput, ThemeBaseLight, ThemeBaseDark
-#from streamlit_plugins.components.theme_changer import get_active_theme_key
-
-# Obtener la clave (ya configurada como secret)
+# Obtener la clave desde GitHub Actions (ya configurada como secret)
 
 key_str = st.secrets["STREAMLIT_GRANULOMETRIA_KEY"]
 
 if not key_str:
     raise RuntimeError("No se encontró la clave STREAMLIT_GRANULOMETRIA_KEY")
 key = key_str.encode()
+
 fernet = Fernet(key)
 
 # Leer y descifrar functions.py.enc
@@ -46,6 +43,9 @@ try:
 except ImportError:
     pass
 
+from streamlit_plugins.components.theme_changer import get_active_theme_key, st_theme_changer
+from streamlit_plugins.components.theme_changer.entity import ThemeInfo, ThemeInput, ThemeBaseLight, ThemeBaseDark
+from streamlit_plugins.components.theme_changer import get_active_theme_key
 
 st.set_page_config(page_title="Análisis Granulométrico", layout="wide")
 
@@ -63,9 +63,9 @@ st.markdown("""
     }
 
     # /* Sidebar y fondo */
-    section[data-testid="stSidebar"] {
-        background-color: #002f42;
-    }
+    # section[data-testid="stSidebar"] {
+    #     background-color: #002f42;
+    # }
 
     div[data-testid="stAppViewContainer"] > main {
         background-color: #002f42;
@@ -98,9 +98,9 @@ st.markdown("""
         background-color: #101820;
         color: white;
         display: flex;
-        justify-content: center;
+        justify-content: center; /* Centra el contenido principal */
         align-items: center;
-        padding: 10px 60px 10px 20px;
+        padding: 10px 60px 10px 20px;  /* espacio a la derecha para el logo */
         font-size: 14px;
         z-index: 100;
         box-sizing: border-box;
@@ -114,7 +114,7 @@ st.markdown("""
     .footer img {
         height: 30px;
         margin-left: auto;
-        margin-right: 20px;
+        margin-right: 120px; /* ajusta este valor según cuán a la derecha lo quieras */
     }
 
     .footer a {
@@ -123,24 +123,20 @@ st.markdown("""
         font-weight: bold;
     }
 
-    /* Mejor que usar absolute */
     .logo-container {
-        margin-left: auto;
-        padding-right: 100px;
+        position: absolute;
+        right: 0;
+        padding-right: 20px;
     }
     </style>
 
+
     <div class="footer">
         <div class="footer-content">
-            <a href="mailto:Francisco.Corvalan@ausenco.com">📧 Contacto: Francisco.Corvalan@ausenco.com</a>
+            <a href="mailto:francisco.corvalan6@gmail.com">📧 Contacto: francisco.corvalan6@gmail.com</a>
         </div>
-        <div class="logo-container">
-            <a href="https://www.ausenco.com/" target="_blank">
-                <img src="https://miningalati.com/wp-content/uploads/2023/06/ausenco-logo.png" alt="Ausenco logo">
-            </a>
-        </div>
+
     </div>
-            
     """, unsafe_allow_html=True)
 
 ######################################################################################################
@@ -197,11 +193,10 @@ df_transformado = None
  
 st.logo(
     "./Logo/ausenco-logo.png",
-    link="https://www.ausenco.com/",
-    size="large",
-    icon_image="./Logo/ausenco-logo.png",
+    #link="https://www.ausenco.com/",
+    size="large"
+    #icon_image="./Logo/ausenco-logo.png",
 )
-
 tabs = st.tabs(["Aplicación", "Manual de Usuario",' Metodología'])
 
 with tabs[0]:
