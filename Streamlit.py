@@ -44,16 +44,6 @@ try:
 except Exception as e:
     st.error(e)
 
-try:
-    authenticator.experimental_guest_login('Login with Google',
-                                           provider='google',
-                                           oauth2=config['oauth2'])
-    authenticator.experimental_guest_login('Login with Microsoft',
-                                           provider='microsoft',
-                                           oauth2=config['oauth2'])
-except Exception as e:
-    st.error(e)
-
 # Obtener la clave desde GitHub Actions (ya configurada como secret)
 
 key_str = st.secrets["STREAMLIT_GRANULOMETRIA_KEY"]
