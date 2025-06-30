@@ -132,10 +132,10 @@ st.markdown("""
 
 
     <div class="footer">
-        <div class="footer-content">
-            <a href="mailto:francisco.corvalan6@gmail.com">📧 Contacto: francisco.corvalan6@gmail.com</a>
-        </div>
-
+        <a href="https://www.ausenco.com/" target="_blank">
+            <img src="./Logo/ausenco-logo.png" alt="Ausenco logo">
+        </a>
+        📧 Contacto: <a href="mailto:Francisco.Corvalan@ausenco.com">Francisco.Corvalan@ausenco.com</a> 
     </div>
     """, unsafe_allow_html=True)
 
@@ -181,7 +181,9 @@ init_theme_data = dict(
 )
 if st.session_state.get("theme_data") is None:
     st.session_state["theme_data"] = init_theme_data
-
+    theme_data = st.session_state["theme_data"]
+    st_theme_changer(themes_data=theme_data, render_mode="init", default_init_theme_name="soft_dark")
+    
 theme_data = st.session_state["theme_data"]
 
 st_theme_changer(themes_data=theme_data, render_mode="init", default_init_theme_name="soft_dark")
@@ -193,9 +195,9 @@ df_transformado = None
  
 st.logo(
     "./Logo/ausenco-logo.png",
-    #link="https://www.ausenco.com/",
+    link="https://www.ausenco.com/",
     size="large"
-    #icon_image="./Logo/ausenco-logo.png",
+    icon_image="./Logo/ausenco-logo.png",
 )
 tabs = st.tabs(["Aplicación", "Manual de Usuario",' Metodología'])
 
