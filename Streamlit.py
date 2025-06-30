@@ -22,7 +22,7 @@ from streamlit_plugins.components.theme_changer import get_active_theme_key, st_
 from streamlit_plugins.components.theme_changer.entity import ThemeInfo, ThemeInput, ThemeBaseLight, ThemeBaseDark
 from streamlit_plugins.components.theme_changer import get_active_theme_key
 
-with open('../config.yaml') as file:
+with open('./config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
 authenticator = stauth.Authenticate(
     config['credentials'],
@@ -35,7 +35,7 @@ try:
     authenticator.login()
 except Exception as e:
     st.error(e)
-    
+
 # Obtener la clave desde GitHub Actions (ya configurada como secret)
 
 key_str = st.secrets["STREAMLIT_GRANULOMETRIA_KEY"]
