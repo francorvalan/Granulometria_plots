@@ -185,8 +185,8 @@ init_theme_data = dict(
 )
 if st.session_state.get("theme_data") is None:
     st.session_state["theme_data"] = init_theme_data
-    theme_data = st.session_state["theme_data"]
-    st_theme_changer(themes_data=theme_data, render_mode="init", default_init_theme_name="soft_dark")
+    #theme_data = st.session_state["theme_data"]
+    #st_theme_changer(themes_data=theme_data, render_mode="init", default_init_theme_name="soft_dark")
 
 theme_data = st.session_state["theme_data"]
 
