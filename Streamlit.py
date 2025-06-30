@@ -194,13 +194,13 @@ st_theme_changer(themes_data=theme_data, render_mode="init", default_init_theme_
 
 df_transformado = None
 
- 
 st.logo(
     "./Logo/ausenco-logo.png",
     link="https://www.ausenco.com/",
     size="large",
     icon_image="./Logo/ausenco-logo.png",
 )
+
 tabs = st.tabs(["Aplicación", "Manual de Usuario",' Metodología'])
 
 with tabs[0]:
