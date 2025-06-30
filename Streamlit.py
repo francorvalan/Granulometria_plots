@@ -126,7 +126,7 @@ st.markdown("""
     /* Mejor que usar absolute */
     .logo-container {
         margin-left: auto;
-        padding-right: 30px;
+        padding-right: 5px;
     }
     </style>
 
