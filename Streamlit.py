@@ -91,22 +91,30 @@ st.markdown("""
 
     /* Footer */
     .footer {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            width: 100%;
-            background-color: #101820;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 20px;
-            font-size: 14px;
-            z-index: 100;
-        }
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #101820;
+        color: white;
+        display: flex;
+        justify-content: center; /* Centra el contenido principal */
+        align-items: center;
+        padding: 10px 60px 10px 20px;  /* espacio a la derecha para el logo */
+        font-size: 14px;
+        z-index: 100;
+        box-sizing: border-box;
+    }
+
+    .footer-content {
+        text-align: center;
+        flex-grow: 1;
+    }
 
     .footer img {
         height: 30px;
+        margin-left: auto;
+        margin-right: 20px; /* ajusta este valor según cuán a la derecha lo quieras */
     }
 
     .footer a {
@@ -114,15 +122,23 @@ st.markdown("""
         text-decoration: none;
         font-weight: bold;
     }
+
+    .logo-container {
+        position: absolute;
+        right: 0;
+        padding-right: 20px;
+    }
     </style>
 
-
     <div class="footer">
-        <a href="mailto:Francisco.Corvalan@ausenco.com"> 📧 Contacto: Francisco.Corvalan@ausenco.com</a>
-        <a href="https://www.ausenco.com/" target="_blank">
-            <img src="https://miningalati.com/wp-content/uploads/2023/06/ausenco-logo.png" alt="Ausenco logo">
-        </a>
-
+        <div class="footer-content">
+            <a href="mailto:Francisco.Corvalan@ausenco.com">📧 Contacto: Francisco.Corvalan@ausenco.com</a>
+        </div>
+        <div class="logo-container">
+            <a href="https://www.ausenco.com/" target="_blank">
+                <img src="https://miningalati.com/wp-content/uploads/2023/06/ausenco-logo.png" alt="Ausenco logo">
+            </a>
+        </div>
     </div>
             
     """, unsafe_allow_html=True)
