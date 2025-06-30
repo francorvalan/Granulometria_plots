@@ -6,3 +6,4 @@ scipy==1.13.1
 openpyxl==3.1.5
 streamlit_plugins
 cryptography
+streamlit_authenticator

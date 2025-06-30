@@ -14,6 +14,28 @@ from openpyxl.styles import Font, Border, Side
 import sys
 import os
 from cryptography.fernet import Fernet
+import streamlit_authenticator as stauth
+import yaml
+from yaml.loader import SafeLoader
+
+from streamlit_plugins.components.theme_changer import get_active_theme_key, st_theme_changer
+from streamlit_plugins.components.theme_changer.entity import ThemeInfo, ThemeInput, ThemeBaseLight, ThemeBaseDark
+from streamlit_plugins.components.theme_changer import get_active_theme_key
+
+with open('../config.yaml') as file:
+    config = yaml.load(file, Loader=SafeLoader)
+authenticator = stauth.Authenticate(
+    config['credentials'],
+    config['cookie']['name'],
+    config['cookie']['key'],
+    config['cookie']['expiry_days']
+)
+
+try:
+    authenticator.login()
+except Exception as e:
+    st.error(e)
+    
 # Obtener la clave desde GitHub Actions (ya configurada como secret)
 
 key_str = st.secrets["STREAMLIT_GRANULOMETRIA_KEY"]
@@ -43,9 +65,7 @@ try:
 except ImportError:
     pass
 
-from streamlit_plugins.components.theme_changer import get_active_theme_key, st_theme_changer
-from streamlit_plugins.components.theme_changer.entity import ThemeInfo, ThemeInput, ThemeBaseLight, ThemeBaseDark
-from streamlit_plugins.components.theme_changer import get_active_theme_key
+
 
 st.set_page_config(page_title="Análisis Granulométrico", layout="wide")
 
