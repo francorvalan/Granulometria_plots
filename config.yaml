@@ -1,7 +1,7 @@
 cookie:
   expiry_days: 30
-  key: # To be filled with any string
-  name: # To be filled with any string
+  key: 1236 # To be filled with any string
+  name: franc # To be filled with any string
 credentials:
   usernames:
     jsmith:
