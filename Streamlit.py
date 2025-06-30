@@ -98,9 +98,9 @@ st.markdown("""
         background-color: #101820;
         color: white;
         display: flex;
-        justify-content: center; /* Centra el contenido principal */
+        justify-content: center;
         align-items: center;
-        padding: 10px 60px 10px 20px;  /* espacio a la derecha para el logo */
+        padding: 10px 60px 10px 20px;
         font-size: 14px;
         z-index: 100;
         box-sizing: border-box;
@@ -114,7 +114,7 @@ st.markdown("""
     .footer img {
         height: 30px;
         margin-left: auto;
-        margin-right: 120px; /* ajusta este valor según cuán a la derecha lo quieras */
+        margin-right: 20px;
     }
 
     .footer a {
@@ -123,20 +123,24 @@ st.markdown("""
         font-weight: bold;
     }
 
+    /* Mejor que usar absolute */
     .logo-container {
-        position: absolute;
-        right: 0;
-        padding-right: 20px;
+        margin-left: auto;
+        padding-right: 100px;
     }
     </style>
 
-
     <div class="footer">
         <div class="footer-content">
-            <a href="mailto:francisco.corvalan6@gmail.com">📧 Contacto: francisco.corvalan6@gmail.com</a>
+            <a href="mailto:Francisco.Corvalan@ausenco.com">📧 Contacto: Francisco.Corvalan@ausenco.com</a>
         </div>
-
+        <div class="logo-container">
+            <a href="https://www.ausenco.com/" target="_blank">
+                <img src="https://miningalati.com/wp-content/uploads/2023/06/ausenco-logo.png" alt="Ausenco logo">
+            </a>
+        </div>
     </div>
+            
     """, unsafe_allow_html=True)
 
 ######################################################################################################
@@ -193,9 +197,9 @@ df_transformado = None
  
 st.logo(
     "./Logo/ausenco-logo.png",
-    #link="https://www.ausenco.com/",
-    size="large"
-    #icon_image="./Logo/ausenco-logo.png",
+    link="https://www.ausenco.com/",
+    size="large",
+    icon_image="./Logo/ausenco-logo.png",
 )
 tabs = st.tabs(["Aplicación", "Manual de Usuario",' Metodología'])
 
