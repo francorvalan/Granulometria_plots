@@ -24,6 +24,7 @@ from streamlit_plugins.components.theme_changer import get_active_theme_key
 
 with open('./config.yaml') as file:
     config = yaml.load(file, Loader=SafeLoader)
+    
 authenticator = stauth.Authenticate(
     config['credentials'],
     config['cookie']['name'],
@@ -32,10 +33,19 @@ authenticator = stauth.Authenticate(
 )
 
 try:
-    authenticator.login()
+    name, authentication_status, username = authenticator.login('Login', 'main')
 except Exception as e:
     st.error(e)
 
+if st.session_state["authentication_status"]:
+    authenticator.logout('Logout', 'main')
+    st.write(f'Welcome *{st.session_state["name"]}*')
+    st.title('Some content')
+elif st.session_state["authentication_status"] == False:
+    st.error('Username/password is incorrect')
+elif st.session_state["authentication_status"] == None:
+    st.warning('Please enter your username and password')
+    
 # Obtener la clave desde GitHub Actions (ya configurada como secret)
 
 key_str = st.secrets["STREAMLIT_GRANULOMETRIA_KEY"]

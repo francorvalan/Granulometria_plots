@@ -1,6 +1,6 @@
 cookie:
   expiry_days: 30
-  key: 1236 # To be filled with any string
+  key: aaa # To be filled with any string
   name: franc # To be filled with any string
 credentials:
   usernames:
