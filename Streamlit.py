@@ -32,17 +32,32 @@ authenticator = stauth.Authenticate(
     config['cookie']['expiry_days']
 )
 
-try:
-    authenticator.login()
-except Exception as e:
-    st.error(e)
+name, auth_status, username = authenticator.login('Login', 'main')
+# 4. Gestión de estados de autenticación
+if auth_status:
+    st.sidebar.success(f"Welcome *{name}*")
+    # Logout en sidebar
+    authenticator.logout('Logout', 'sidebar')
+    # Aquí va el resto de tu app protegida
+    st.write("🔒 Aplicación protegida")
+    # … procesamiento, gráficas, descargas, etc.
 
-try:
-    authenticator.experimental_guest_login('Login with Google',
-                                           provider='google',
-                                           oauth2=config['oauth2'])
-except Exception as e:
-    st.error(e)
+elif auth_status is False:
+    st.error("❌ Username/password incorrect")
+
+else:  # auth_status is None
+    st.info("ℹ️ Please enter your credentials or use guest login")
+    # Solo si aún no está logueado mostramos opciones de invitado
+    authenticator.experimental_guest_login(
+        'Login with Google',
+        provider='google',
+        oauth2=config['oauth2']
+    )
+    authenticator.experimental_guest_login(
+        'Login with Microsoft',
+        provider='microsoft',
+        oauth2=config['oauth2']
+    )
 
 # Obtener la clave desde GitHub Actions (ya configurada como secret)
 
