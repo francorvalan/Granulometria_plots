@@ -49,7 +49,7 @@ except ImportError:
 
 st.set_page_config(page_title="Análisis Granulométrico", layout="wide")
 
-active_theme = get_active_theme_key()
+#active_theme = get_active_theme_key()
 # Inyectar fuente Roboto
 
 st.markdown("""
@@ -194,6 +194,7 @@ st_theme_changer(themes_data=theme_data, render_mode="init", default_init_theme_
 
 df_transformado = None
 
+ 
 st.logo(
     "./Logo/ausenco-logo.png",
     link="https://www.ausenco.com/",
