@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-
 #from scipy.interpolate import PchipInterpolator
 from io import BytesIO
 import matplotlib.pyplot as plt
@@ -21,7 +20,6 @@ key_str = st.secrets["STREAMLIT_GRANULOMETRIA_KEY"]
 if not key_str:
     raise RuntimeError("No se encontró la clave STREAMLIT_GRANULOMETRIA_KEY")
 key = key_str.encode()
-
 fernet = Fernet(key)
 
 # Leer y descifrar functions.py.enc
@@ -45,7 +43,7 @@ except ImportError:
 
 from streamlit_plugins.components.theme_changer import get_active_theme_key, st_theme_changer
 from streamlit_plugins.components.theme_changer.entity import ThemeInfo, ThemeInput, ThemeBaseLight, ThemeBaseDark
-from streamlit_plugins.components.theme_changer import get_active_theme_key
+#from streamlit_plugins.components.theme_changer import get_active_theme_key
 
 st.set_page_config(page_title="Análisis Granulométrico", layout="wide")
 
@@ -185,8 +183,6 @@ init_theme_data = dict(
 )
 if st.session_state.get("theme_data") is None:
     st.session_state["theme_data"] = init_theme_data
-    #theme_data = st.session_state["theme_data"]
-    #st_theme_changer(themes_data=theme_data, render_mode="init", default_init_theme_name="soft_dark")
 
 theme_data = st.session_state["theme_data"]
 
